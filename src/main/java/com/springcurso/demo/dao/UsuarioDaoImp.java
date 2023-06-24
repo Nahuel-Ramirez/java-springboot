@@ -23,10 +23,8 @@ public class UsuarioDaoImp implements UsuarioDao{
 	@Transactional
 	public List<Usuario> getUsuarios() {
 		String query = "FROM Usuario";
-		return em.createQuery(query).getResultList();		
+		return em.createQuery(query).getResultList();
 		
 	}
-	
-	
 	
 }
