@@ -10,8 +10,6 @@ import com.springcurso.demo.models.Usuario;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
-
-
 @Repository
 @Transactional
 public class UsuarioDaoImp implements UsuarioDao{
@@ -23,8 +21,20 @@ public class UsuarioDaoImp implements UsuarioDao{
 	@Transactional
 	public List<Usuario> getUsuarios() {
 		String query = "FROM Usuario";
-		return em.createQuery(query).getResultList();
-		
+		var result = em.createQuery(query, Usuario.class).getResultList();
+		System.out.println(result);
+		return result;
+	}
+
+	@Override
+	@Transactional
+	public void eliminarUsuario(Long id) {
+		Usuario usuario = em.find(Usuario.class, id);
+		if (usuario != null) {
+			em.remove(usuario);		
+		}else {
+			System.out.println("No se encontro el usuario");
+		}
 	}
 	
 }
