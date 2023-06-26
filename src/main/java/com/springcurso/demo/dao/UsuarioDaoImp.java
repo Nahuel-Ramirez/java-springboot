@@ -36,5 +36,11 @@ public class UsuarioDaoImp implements UsuarioDao{
 			System.out.println("No se encontro el usuario");
 		}
 	}
+
+	@Override
+	@Transactional
+	public void registrar(Usuario usuario) {
+		em.merge(usuario);
+	}
 	
 }
