@@ -17,6 +17,8 @@ async function cargarUsuarios() {
 
   let listadoHtml = "";
   for (let usuario of usuarios) {
+    let telefono = usuario.telefono == null ? "-" : usuario.telefono;
+
     const botonEliminar =
       '<a href="#" onclick="eliminarUsuario(' +
       usuario.id +
@@ -31,7 +33,7 @@ async function cargarUsuarios() {
       "</td><td>" +
       usuario.email +
       "</td><td>" +
-      usuario.telefono +
+      telefono +
       "</td><td>" +
       botonEliminar +
       "</td></tr>";

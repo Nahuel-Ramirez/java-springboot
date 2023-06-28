@@ -26,8 +26,8 @@ async function registrarUsuario() {
     },
     body: JSON.stringify(datos),
   });
-  const usuarios = await request.json();
-  if (request.status(200)) {
-    document.location.href = "http://localhost:8080/index.html";
+  if (request.status == 200) {
+    alert("¡Excelente! Ahora logueate para continuar");
+    window.location.href = "login.html";
   }
 }
