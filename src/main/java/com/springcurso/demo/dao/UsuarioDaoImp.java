@@ -1,6 +1,6 @@
 package com.springcurso.demo.dao;
 
-import java.security.KeyStore.PasswordProtection;
+
 import java.util.List;
 
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
@@ -46,26 +46,24 @@ public class UsuarioDaoImp implements UsuarioDao {
 	}
 
 	@Override
-	public boolean verificarEmailPassword(Usuario usuario) {
+	public Usuario obtenerUsuarioPorCredenciales(Usuario usuario) {
 		String query = "FROM Usuario WHERE email = :email";
 		List<Usuario> lista = em.createQuery(query, Usuario.class)
 				.setParameter("email", usuario.getEmail())
 				.getResultList();
 
 		if (lista.isEmpty()) {
-			return false;
+			return null;
 		}
 
 		String passwordHashed = lista.get(0).getPassword();
 
 		Argon2PasswordEncoder encoder = new Argon2PasswordEncoder();
-		try {
-			return encoder.matches(usuario.getPassword(), passwordHashed);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
+
+		if (encoder.matches(usuario.getPassword(), passwordHashed)) {
+			return lista.get(0);
 		}
+		return null;
 
 	}
-
 }

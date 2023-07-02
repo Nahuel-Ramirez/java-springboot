@@ -10,6 +10,7 @@ async function cargarUsuarios() {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
+      Authorization: localStorage.getItem("token"),
     },
   });
   const usuarios = await request.json();
@@ -54,6 +55,7 @@ async function eliminarUsuario(id) {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
+      Authorization: localStorage.getItem("token"),
     },
   });
 
