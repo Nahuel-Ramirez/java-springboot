@@ -27,6 +27,7 @@ async function registrarUsuario() {
     body: JSON.stringify(datos),
   });
   if (request.status == 200) {
+    localStorage.setItem("nombre", datos.nombre);
     alert("¡Excelente! Ahora logueate para continuar");
     window.location.href = "login.html";
   }

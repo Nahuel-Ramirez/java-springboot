@@ -1,6 +1,5 @@
 package com.springcurso.demo.controllers;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,19 +19,15 @@ import com.springcurso.demo.models.Usuario;
 import com.springcurso.demo.utils.Base64Util;
 import com.springcurso.demo.utils.JWTUtils;
 
-
-
-
-
 @RestController
 public class UsuarioController {
-	
+
 	@Autowired
 	private UsuarioDao usuarioDao;
-	
+
 	@Autowired
 	private JWTUtils jwtUtils;
-	
+
 	@Autowired
 	private Base64Util base64Util;
 
@@ -48,37 +43,45 @@ public class UsuarioController {
 		usuario.setPassword("123");
 		return usuario;
 	}
-	
+
 	@GetMapping("api/usuarios")
 	@ResponseBody
 	public List<Usuario> getUsuarios(@RequestHeader(value = "Authorization") String token) {
-		
+		if (!validarToken(token)) {
+			return null;
+		}
+
+		return usuarioDao.getUsuarios();
+	}
+
+	private boolean validarToken(String token) {
 		String usuarioId = base64Util.getKey(token);
 		System.out.println(usuarioId);
-		if(usuarioId == null) {
-			return new ArrayList<>();
-		}
-		
-		return usuarioDao.getUsuarios();
-	}		
-	
+		return usuarioId != null;
+
+	}
+
 	@PostMapping("api/usuarios")
 	public void registrarUsuario(@RequestBody Usuario usuario) {
-		
-		//instancia de Argon2
+
+		// instancia de Argon2
 		Argon2PasswordEncoder encoder = new Argon2PasswordEncoder();
-		
-		//hasheo la contraseña
+
+		// hasheo la contraseña
 		String passwordHash = encoder.encode(usuario.getPassword());
 		usuario.setPassword(passwordHash);
 		usuarioDao.registrar(usuario);
-	}	
-	
+	}
+
 	@DeleteMapping("api/usuarios/{id}")
 	@ResponseBody
-	public void eliminar(@PathVariable Long id) {
+	public void eliminar(@RequestHeader(value = "Authorization") String token, @PathVariable Long id) {
+
+		if (!validarToken(token)) {
+			return;
+		}
+
 		usuarioDao.eliminarUsuario(id);
 	}
-	
-	
+
 }
