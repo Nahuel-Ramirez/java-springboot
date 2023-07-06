@@ -44,7 +44,7 @@
         <!-- Sidebar - Brand -->
         <a
           class="sidebar-brand d-flex align-items-center justify-content-center"
-          href="index.html"
+          href="usuarios.html"
         >
           <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
@@ -144,9 +144,10 @@
                   <div class="dropdown-divider"></div>
                   <a
                     class="dropdown-item"
-                    href="/login.html"
+                    href="#"
                     data-toggle="modal"
                     data-target="#logoutModal"
+                    id="cerrarSesion"
                   >
                     <i
                       class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"
@@ -211,7 +212,7 @@
         <footer class="sticky-footer bg-white">
           <div class="container my-auto">
             <div class="copyright text-center my-auto">
-              <span>Copyright &copy; Your Website 2020</span>
+              <span>Copyright &copy; Users System 2023</span>
             </div>
           </div>
         </footer>
@@ -238,7 +239,9 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <h5 class="modal-title" id="exampleModalLabel">
+              ¿Seguro quieres salir?
+            </h5>
             <button
               class="close"
               type="button"
@@ -249,7 +252,7 @@
             </button>
           </div>
           <div class="modal-body">
-            Select "Logout" below if you are ready to end your current session.
+            Selecciona "Logout" debajo si estas listo para finalizar la sesion.
           </div>
           <div class="modal-footer">
             <button
@@ -259,7 +262,9 @@
             >
               Cancel
             </button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
+            <a class="btn btn-primary" href="#" onclick="cerrarSesion()"
+              >Logout</a
+            >
           </div>
         </div>
       </div>

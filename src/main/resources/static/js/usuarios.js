@@ -1,13 +1,26 @@
 // Call the dataTables jQuery plugin
 $(document).ready(function () {
+  revisarToken();
   cargarUsuarios();
   $("#usuarios").DataTable();
   actualizarUsuario();
 });
 
+function cerrarSesion() {
+  localStorage.setItem("token", null);
+  window.location.href = "login.html";
+}
+
 function actualizarUsuario() {
   document.getElementById("email-usuario").innerHTML =
     localStorage.getItem("nombre");
+}
+
+function revisarToken() {
+  let token = localStorage.getItem("token");
+  if (!token) {
+    window.location.href = "login.html";
+  }
 }
 
 async function cargarUsuarios() {
@@ -22,33 +35,37 @@ async function cargarUsuarios() {
   const usuarios = await request.json();
   console.log(usuarios);
 
-  let listadoHtml = "";
-  for (let usuario of usuarios) {
-    let telefono = usuario.telefono == null ? "-" : usuario.telefono;
+  try {
+    let listadoHtml = "";
+    for (let usuario of usuarios) {
+      let telefono = usuario.telefono == null ? "-" : usuario.telefono;
 
-    const botonEliminar =
-      '<a href="#" onclick="eliminarUsuario(' +
-      usuario.id +
-      ')" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>';
-    let usuarioHtml =
-      "<tr><td>" +
-      usuario.id +
-      "</td><td>" +
-      usuario.nombre +
-      " " +
-      usuario.apellido +
-      "</td><td>" +
-      usuario.email +
-      "</td><td>" +
-      telefono +
-      "</td><td>" +
-      botonEliminar +
-      "</td></tr>";
+      const botonEliminar =
+        '<a href="#" onclick="eliminarUsuario(' +
+        usuario.id +
+        ')" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>';
+      let usuarioHtml =
+        "<tr><td>" +
+        usuario.id +
+        "</td><td>" +
+        usuario.nombre +
+        " " +
+        usuario.apellido +
+        "</td><td>" +
+        usuario.email +
+        "</td><td>" +
+        telefono +
+        "</td><td>" +
+        botonEliminar +
+        "</td></tr>";
 
-    listadoHtml += usuarioHtml;
+      listadoHtml += usuarioHtml;
+    }
+    document.querySelector("#usuarios tbody").innerHTML = listadoHtml;
+  } catch (error) {
+    console.error(error);
+    window.location.href = "login.html";
   }
-
-  document.querySelector("#usuarios tbody").innerHTML = listadoHtml;
 }
 
 async function eliminarUsuario(id) {
